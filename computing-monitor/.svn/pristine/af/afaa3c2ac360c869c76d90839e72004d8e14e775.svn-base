@@ -1,7 +1,0 @@
-app.id=computing-monitor-server
-apollo.bootstrap.enabled=true
-apollo.bootstrap.namespaces=application,bootstrap
-apollo.bootstrap.eagerLoad.enabled=true
-spring.main.allow-bean-definition-overriding=true
-apollo.cacheDir=./config
-#mybatis-plus.configuration.log-impl = org.apache.ibatis.logging.stdout.StdOutImpl
