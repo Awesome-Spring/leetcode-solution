@@ -35,7 +35,10 @@ public class BinarySearch {
 
         System.out.println(mostLeft(new int[]{0, 1, 1, 2, 2, 3, 4}, 2) == 3);
         System.out.println(mostRight(new int[]{0, 1, 1, 2, 2, 3, 4}, 2) == 4);
-
+        String ip = "10.0.0.1 10.0.0.2 10.0.0.3";
+        String trim = ip.replaceAll("10.0.0.2", "").trim();
+        System.out.println(trim);
+        System.out.println(Arrays.toString(trim.split(" +")));
     }
 
     private static int binarySearch0(int[] a, int target) {
