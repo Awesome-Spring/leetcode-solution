@@ -84,10 +84,102 @@ public class AddTwoNumbers {
         int newNodeVal = sum % 10; //余数
         carry = sum / 10;//节点相加和的进位
         ListNode currentNode = new ListNode(newNodeVal);
-        currentNode.next = addTwoNumbers(l1 != null ? l1.next : null, l2 != null ? l2.next : l2, carry);
+        currentNode.next = addTwoNumbers(l1 != null ? l1.next : null, l2 != null ? l2.next : null, carry);
 
         return currentNode;
     }
 
+    // Helper method to create linked list from array
+    private static ListNode createList(int[] arr) {
+        if (arr.length == 0) return null;
+        ListNode head = new ListNode(arr[0]);
+        ListNode current = head;
+        for (int i = 1; i < arr.length; i++) {
+            current.next = new ListNode(arr[i]);
+            current = current.next;
+        }
+        return head;
+    }
+
+    // Helper method to convert linked list to array for testing
+    private static int[] listToArray(ListNode head) {
+        java.util.List<Integer> result = new java.util.ArrayList<>();
+        while (head != null) {
+            result.add(head.val);
+            head = head.next;
+        }
+        return result.stream().mapToInt(i -> i).toArray();
+    }
+
+    // Test method
+    private static boolean testCase(int[] l1Arr, int[] l2Arr, int[] expected, String testName) {
+        AddTwoNumbers solution = new AddTwoNumbers();
+        ListNode l1 = createList(l1Arr);
+        ListNode l2 = createList(l2Arr);
+        
+        // Test iterative method
+        ListNode result1 = solution.addTwoNumbers1(l1, l2);
+        int[] actual1 = listToArray(result1);
+        
+        // Recreate lists for recursive method (since they were modified)
+        l1 = createList(l1Arr);
+        l2 = createList(l2Arr);
+        ListNode result2 = solution.addTwoNumbers2(l1, l2);
+        int[] actual2 = listToArray(result2);
+        
+        boolean pass1 = java.util.Arrays.equals(actual1, expected);
+        boolean pass2 = java.util.Arrays.equals(actual2, expected);
+        
+        System.out.println(testName + " - Iterative: " + (pass1 ? "PASS" : "FAIL"));
+        System.out.println(testName + " - Recursive: " + (pass2 ? "PASS" : "FAIL"));
+        if (!pass1) System.out.println("  Expected: " + java.util.Arrays.toString(expected) + ", Got: " + java.util.Arrays.toString(actual1));
+        if (!pass2) System.out.println("  Expected: " + java.util.Arrays.toString(expected) + ", Got: " + java.util.Arrays.toString(actual2));
+        
+        return pass1 && pass2;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("=== AddTwoNumbers Test Cases ===");
+        
+        int passCount = 0;
+        int totalTests = 8;
+        
+        // Test Case 1: Basic example [2,4,3] + [5,6,4] = [7,0,8] (342 + 465 = 807)
+        if (testCase(new int[]{2,4,3}, new int[]{5,6,4}, new int[]{7,0,8}, "Test 1: Basic Addition")) passCount++;
+        
+        // Test Case 2: Zero + Zero = Zero
+        if (testCase(new int[]{0}, new int[]{0}, new int[]{0}, "Test 2: Zero Addition")) passCount++;
+        
+        // Test Case 3: Different lengths with carry [9,9,9,9,9,9,9] + [9,9,9,9] = [8,9,9,9,0,0,0,1]
+        if (testCase(new int[]{9,9,9,9,9,9,9}, new int[]{9,9,9,9}, new int[]{8,9,9,9,0,0,0,1}, "Test 3: Different Lengths with Carry")) passCount++;
+        
+        // Test Case 4: Single digit with carry [5] + [5] = [0,1]
+        if (testCase(new int[]{5}, new int[]{5}, new int[]{0,1}, "Test 4: Single Digit Carry")) passCount++;
+        
+        // Test Case 5: One empty list simulation [1,2] + [0] = [1,2] (but we can't have empty lists, so use single zero)
+        if (testCase(new int[]{1,2,3}, new int[]{0}, new int[]{1,2,3}, "Test 5: Adding Zero")) passCount++;
+        
+        // Test Case 6: Maximum single digits [9] + [9] = [8,1]
+        if (testCase(new int[]{9}, new int[]{9}, new int[]{8,1}, "Test 6: Max Single Digits")) passCount++;
+        
+        // Test Case 7: Multiple carries [9,9] + [1] = [0,0,1]
+        if (testCase(new int[]{9,9}, new int[]{1}, new int[]{0,0,1}, "Test 7: Multiple Carries")) passCount++;
+        
+        // Test Case 8: Large numbers [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1] + [5,6,4] = [6,6,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]
+        if (testCase(new int[]{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1}, 
+                    new int[]{5,6,4}, 
+                    new int[]{6,6,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1}, 
+                    "Test 8: Large Numbers")) passCount++;
+        
+        System.out.println("\n=== Test Results ===");
+        System.out.println("Passed: " + passCount + "/" + totalTests);
+        System.out.println("Success Rate: " + (passCount * 100.0 / totalTests) + "%");
+        
+        if (passCount == totalTests) {
+            System.out.println("🎉 All tests passed!");
+        } else {
+            System.out.println("❌ Some tests failed. Please review the implementation.");
+        }
+    }
 
 }
