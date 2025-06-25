@@ -7,7 +7,13 @@
       "Bash(gh repo push:*)",
       "Bash(gh auth:*)",
       "Bash(git remote:*)",
-      "Bash(gh pr create:*)"
+      "Bash(gh pr create:*)",
+      "Bash(gh pr merge:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh issue create:*)",
+      "Bash(git checkout:*)",
+      "Bash(mkdir:*)",
+      "Bash(java:*)"
     ],
     "deny": []
   }
